@@ -7,7 +7,9 @@ export function Header() {
   return (
     <LayoutSection>
       <header className="flex justify-between items-center py-16 sticky">
-        <Image src='/logo.svg' alt="Coffee Delivery Logo" width={85} height={40} />
+        <Link href="/">
+          <Image src='/logo.svg' alt="Coffee Delivery Logo" width={85} height={40} />
+        </Link>
 
         <div className="flex items-center gap-3">
           <div className="flex gap-1 rounded-md items-center bg-lightPurple text-darkPurple p-2">

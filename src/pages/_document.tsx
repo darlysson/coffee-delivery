@@ -9,7 +9,7 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
       </Head>
 
-      <body className='bg-defaultBgColor text-defaultText font-roboto font-normal'>
+      <body className='bg-defaultBgColor text-defaultText font-roboto font-normal pb-16'>
         <Main />
         <NextScript />
       </body>
