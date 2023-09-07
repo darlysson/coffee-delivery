@@ -1,12 +1,13 @@
 import { MapPin, ShoppingCartSimple } from '@phosphor-icons/react';
 import Image from "next/image";
 import Link from "next/link";
+import { Icon } from './Icon';
 import { LayoutSection } from './LayoutSection';
 
 export function Header() {
   return (
     <LayoutSection>
-      <header className="flex justify-between items-center py-16 sticky">
+      <header className="flex justify-between items-center py-16 ">
         <Link href="/">
           <Image src='/logo.svg' alt="Coffee Delivery Logo" width={85} height={40} />
         </Link>
@@ -18,8 +19,8 @@ export function Header() {
             <span className="text-sm">Lisbon, PT</span>
           </div>
 
-          <Link href="/checkout" className="p-2 bg-lightYellow no-underline rounded-md">
-            <ShoppingCartSimple className="text-darkYellow" weight='fill' />
+          <Link href="/checkout" className="p-1 bg-lightYellow no-underline rounded-md">
+            <Icon icon={ShoppingCartSimple} className="text-darkYellow" size={22} />
           </Link>
         </div>
       </header>

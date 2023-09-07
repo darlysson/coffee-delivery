@@ -1,3 +1,4 @@
+import { Icon } from "@/components/Icon";
 import { LayoutSection } from "@/components/LayoutSection";
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
 import Image from 'next/image';
@@ -12,10 +13,11 @@ export default function success() {
 
           <div className="p-10 border mt-10 rounded-tl-md rounded-tr-5xl rounded-bl-5xl rounded-br-md border-purple">
             <div className="flex items-center gap-x-3">
-              <div className="text-defaultBgColor bg-purple rounded-full h-8 w-8 p-2">
-                <MapPin weight="fill" />
-              </div>
-
+              <Icon
+                isFullRounded
+                icon={MapPin}
+                className="text-defaultBgColor bg-purple p-2"
+              />
               <div className="flex-col text-base text-defaultText">
                 <p>Deliver at <strong>102, Prince Charles Avenue</strong></p>
                 <p>Northumberland, London</p>
@@ -23,10 +25,11 @@ export default function success() {
             </div>
 
             <div className="flex items-center gap-x-3 mt-8">
-              <div className="text-defaultBgColor bg-yellow rounded-full h-8 w-8 p-2">
-                <Timer weight="fill" />
-              </div>
-
+              <Icon
+                isFullRounded
+                icon={Timer}
+                className="text-defaultBgColor bg-yellow p-2"
+              />
               <div className="flex-col text-base text-defaultText">
                 <p>Estimated Time of Arrival</p>
                 <strong>Northumberland, London</strong>
@@ -34,10 +37,11 @@ export default function success() {
             </div>
 
             <div className="flex items-center gap-x-3 mt-8">
-              <div className="text-defaultBgColor bg-darkYellow rounded-full h-8 w-8 p-2">
-                <CurrencyDollar weight="fill" />
-              </div>
-
+              <Icon
+                isFullRounded
+                icon={CurrencyDollar}
+                className="text-defaultBgColor bg-darkYellow p-2"
+              />
               <div className="flex-col text-base text-defaultText">
                 <p>Payment Method</p>
                 <strong>Credit Card</strong>

@@ -1,4 +1,4 @@
-import { Coffee, Package, ShoppingCartSimple, Timer } from '@phosphor-icons/react'
+import { Package, ShoppingCartSimple, Timer } from '@phosphor-icons/react'
 import Image from 'next/image'
 import { Icon } from './Icon'
 
@@ -10,10 +10,33 @@ export function Hero() {
         <p className='text-xl'>With Coffe Delivery, you receive your coffee wherever you are at, at any time.</p>
 
         <div className="grid gap-y-5 gap-x-10 grid-cols-2 mt-16">
-          <Icon title='Simple and secure purchase' icon={ShoppingCartSimple} bgColor='bg-darkYellow' />
-          <Icon title='The package keeps your coffee great' icon={Package} bgColor='bg-defaultText' />
-          <Icon title='Fast and tracked delivery' icon={Timer} bgColor='bg-yellow' />
-          <Icon title='The coffee arrives fresh' icon={Coffee} bgColor='bg-purple' />
+          <Icon
+            className='bg-darkYellow text-defaultBgColor'
+            icon={ShoppingCartSimple}
+            text="Simple and secure purchase"
+            isFullRounded
+          />
+
+          <Icon
+            className='bg-defaultText text-defaultBgColor'
+            icon={Package}
+            text="The package keeps your coffee great"
+            isFullRounded
+          />
+
+          <Icon
+            className='bg-yellow text-defaultBgColor'
+            icon={Timer}
+            text="Fast and tracked delivery"
+            isFullRounded
+          />
+
+          <Icon
+            className='bg-purple text-defaultBgColor'
+            icon={Timer}
+            text="The coffee arrives fresh"
+            isFullRounded
+          />
         </div>
       </div>
 
