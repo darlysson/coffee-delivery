@@ -1,7 +1,6 @@
-import { Minus, Plus, ShoppingCartSimple } from "@phosphor-icons/react";
+import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
 import { ComponentProps } from "react";
-import { Icon } from "./Icon";
 
 interface CoffeeCardProps extends ComponentProps<'div'> {
   imageSrc: string
@@ -34,21 +33,15 @@ export function CoffeeCard({ title, imageSrc, price, labels, description, quanti
           € <span className="font-baloo text-2xl te">{price}</span>
         </p>
 
-        <div className="flex gap-2">
-          <div className="flex items-center p-2 gap-1 bg-button rounded-md">
-            <button className="text-purple">
-              <Minus weight="bold" />
-            </button>
-            <span className="text-base font-roboto px-2 text-defaultText font-semibold">
-              {quantity}
-            </span>
-            <button className="text-purple">
-              <Plus weight="bold" />
-            </button>
-          </div>
-
-          <button className="cursor-pointer">
-            <Icon icon={ShoppingCartSimple} size={24} className="text-white p-2 bg-darkPurple" />
+        <div className="flex items-center p-2 gap-1 bg-button rounded-md">
+          <button className="text-purple">
+            <Minus weight="bold" />
+          </button>
+          <span className="text-base font-roboto px-2 text-defaultText font-semibold">
+            {quantity}
+          </span>
+          <button className="text-purple">
+            <Plus weight="bold" />
           </button>
         </div>
       </div>

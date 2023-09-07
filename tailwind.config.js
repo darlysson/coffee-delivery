@@ -35,10 +35,19 @@ module.exports = {
       borderRadius: {
         '5xl': '36px',
       },
-      // border: {},
-      // borderColor: {
-      //   'linear-gradient': 'linear-gradient(to left, #DBAC2C, #8047F8)',
-      // },
+      keyframes: {
+        checkout: {
+          '0%': {
+            boxShadow: '0 0 0 0 #C47F17',
+          },
+          '70%': {
+            boxShadow: '0 0 0 15px rgba(229, 62, 62, 0)',
+          },
+        },
+      },
+      animation: {
+        checkout: 'checkout 2s infinite',
+      },
     },
   },
   plugins: [],

@@ -19,6 +19,7 @@ export function Header() {
             <span className="text-sm">Lisbon, PT</span>
           </div>
 
+          {/* Apply these classes only if there's at least 1 item in the card => border border-darkYellow animate-checkout */}
           <Link href="/checkout" className="p-1 bg-lightYellow no-underline rounded-md">
             <Icon icon={ShoppingCartSimple} className="text-darkYellow" size={22} />
           </Link>
