@@ -1,23 +1,22 @@
-import { Icon } from '@phosphor-icons/react'
+import { clsx } from 'clsx'
+import { ElementType } from 'react'
 
-interface IconProps {
-  title?: string
-  icon: Icon
-  bgColor?: string
-  hasLabel?: boolean
-  size?: number
+import { IconProps as PhosporIconProps } from '@phosphor-icons/react'
+
+interface IconProps extends PhosporIconProps {
+  text?: string
+  icon: ElementType
+  isFullRounded?: boolean
 }
 
-export function Icon({ title, icon: Icon, bgColor, hasLabel = true, size }: IconProps) {
-  const hasBgColor = bgColor !== undefined ? bgColor : ''
-
+export function Icon({ text, icon: Icon, className, isFullRounded = false, size = 16 }: IconProps) {
   return (
     <div className="flex items-center gap-x-3">
-      <div className={`${hasBgColor} text-defaultBgColor rounded-full h-8 w-8 p-2`}>
-        <Icon weight='fill' size={size} />
+      <div className={clsx('p-1', isFullRounded ? 'rounded-full' : 'rounded-md', className)}>
+        <Icon weight='fill' width={size} height={size} />
       </div>
 
-      {hasLabel && <span className='text-base'>{title}</span>}
+      {text && <span className='text-base'>{text}</span>}
     </div>
   )
 }

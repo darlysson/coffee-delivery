@@ -1,6 +1,7 @@
 import { LayoutSection } from "@/components/LayoutSection";
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from '@phosphor-icons/react';
 import Image from "next/image";
+import Link from "next/link";
 
 export default function checkout() {
   return (
@@ -160,9 +161,9 @@ export default function checkout() {
               </div>
             </div>
 
-            <button type="submit" className="py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6">
+            <Link href="/success" className="block text-center py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6">
               Submit Order
-            </button>
+            </Link>
           </div>
         </div>
       </div>
