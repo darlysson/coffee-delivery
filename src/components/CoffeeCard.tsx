@@ -1,20 +1,16 @@
+import { CoffeeProps, useCoffee } from "@/pages/_app";
+import { formatPrice } from "@/utils/priceFormatter";
 import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
-import { ComponentProps } from "react";
+import { useRef } from "react";
 
-interface CoffeeCardProps extends ComponentProps<'div'> {
-  imageSrc: string
-  title: string
-  labels: string[]
-  description: string
-  price: string
-  quantity: number
-}
+export function CoffeeCard({ title, image, price, labels, description, quantity, coffeeIndex }: CoffeeProps & { coffeeIndex: number }) {
+  const cardRef = useRef(null)
+  const { handleAddCoffee } = useCoffee()
 
-export function CoffeeCard({ title, imageSrc, price, labels, description, quantity }: CoffeeCardProps) {
   return (
-    <div className="text-center bg-card rounded-tr-3xl rounded-bl-3xl px-6 pb-5 relative min-h-[24rem]">
-      <Image src={imageSrc} alt="Cuban coffee" width={150} height={150} className="relative -top-6 mx-auto" />
+    <div ref={cardRef} className="text-center bg-card rounded-tr-3xl rounded-bl-3xl px-6 pb-5 relative min-h-[24rem]">
+      <Image src={image} alt="Cuban coffee" width={150} height={150} className="relative -top-6 mx-auto" />
 
       <ul className="flex items-center justify-center gap-2">
         {labels.map(label => (
@@ -30,7 +26,7 @@ export function CoffeeCard({ title, imageSrc, price, labels, description, quanti
 
       <div className="flex items-center mt-8 absolute bottom-6 left-0 right-0 px-6">
         <p className="text-defaultText mr-auto">
-          € <span className="font-baloo text-2xl te">{price}</span>
+          <span className="font-baloo text-2xl te">{formatPrice(price)}</span>
         </p>
 
         <div className="flex items-center p-2 gap-1 bg-button rounded-md">
@@ -40,11 +36,11 @@ export function CoffeeCard({ title, imageSrc, price, labels, description, quanti
           <span className="text-base font-roboto px-2 text-defaultText font-semibold">
             {quantity}
           </span>
-          <button className="text-purple">
+          <button className="text-purple" onClick={() => handleAddCoffee(cardRef.current, coffeeIndex)}>
             <Plus weight="bold" />
           </button>
         </div>
       </div>
-    </div >
+    </div>
   )
 }
