@@ -25,7 +25,7 @@
       "title": "Expresso Cremoso",
       "description": "Café expresso tradicional com espuma cremosa",
       "price": "3,16",
-      "quantity": 0
+      "quantity": 1
     },
     {
       "id": 4,
@@ -70,7 +70,7 @@
       "title": "Macchiato",
       "description": "Café expresso misturado com um pouco de leite quente e espuma",
       "price": "1,20",
-      "quantity": 0
+      "quantity": 3
     },
     {
       "id": 9,
@@ -97,7 +97,7 @@
       "title": "Cubano",
       "description": "Drink gelado de café expresso com rum, creme de leite e hortelã",
       "price": "7,25",
-      "quantity": 0
+      "quantity": 12
     },
     {
       "id": 12,
@@ -115,7 +115,7 @@
       "title": "Árabe",
       "description": "Bebida preparada com grãos de café árabe e especiarias",
       "price": "5,20",
-      "quantity": 0
+      "quantity": 5
     },
     {
       "id": 14,
@@ -124,7 +124,7 @@
       "title": "Irlandês",
       "description": "Bebida à base de café, uísque irlandês, açúcar e chantilly",
       "price": "9,99",
-      "quantity": 0
+      "quantity": 2
     }
   ]
 }

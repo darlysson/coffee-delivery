@@ -1,10 +1,15 @@
+import { CoffeesContext } from '@/pages/_app';
 import { MapPin, ShoppingCartSimple } from '@phosphor-icons/react';
+import clsx from 'clsx';
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from 'react';
 import { Icon } from './Icon';
 import { LayoutSection } from './LayoutSection';
 
 export function Header() {
+  const { sumOfAllCoffees } = useContext(CoffeesContext)
+
   return (
     <LayoutSection>
       <header className="flex justify-between items-center py-16 ">
@@ -19,9 +24,14 @@ export function Header() {
             <span className="text-sm">Lisbon, PT</span>
           </div>
 
-          {/* Apply these classes only if there's at least 1 item in the card => border border-darkYellow animate-checkout */}
-          <Link href="/checkout" className="p-1 bg-lightYellow no-underline rounded-md">
+          <Link href="/checkout" className={clsx('p-1 bg-lightYellow no-underline rounded-md relative', sumOfAllCoffees > 0 && 'border border-darkYellow animate-checkout')}>
             <Icon icon={ShoppingCartSimple} className="text-darkYellow" size={22} />
+
+            {sumOfAllCoffees > 0 && (
+              <div className="bg-darkYellow text-xs text-white rounded-full p-1 align-middle flex items-center justify-center h-6 w-6 text-center font-bold absolute -top-3 -right-3">
+                {sumOfAllCoffees}
+              </div>
+            )}
           </Link>
         </div>
       </header>
