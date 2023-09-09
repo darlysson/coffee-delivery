@@ -1,7 +1,7 @@
 import { CoffeeCard } from "@/components/CoffeeCard";
 import { Hero } from "@/components/Hero";
 import { LayoutSection } from "@/components/LayoutSection";
-import { useCoffee } from "./_app";
+import { useCoffee } from "@/hooks/useCoffee";
 
 export default function Home() {
   const { coffees } = useCoffee()
