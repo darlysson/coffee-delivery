@@ -1,15 +1,14 @@
-import { CoffeeProps, useCoffee } from "@/pages/_app";
+import { useCoffee } from "@/hooks/useCoffee";
+import { CoffeeProps } from "@/pages/_app";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
-import { useRef } from "react";
 
-export function CoffeeCard({ title, image, price, labels, description, quantity, coffeeIndex }: CoffeeProps & { coffeeIndex: number }) {
-  const cardRef = useRef(null)
-  const { handleAddCoffee } = useCoffee()
+export function CoffeeCard({ id, title, image, price, labels, description, quantity, coffeeIndex }: CoffeeProps & { coffeeIndex: number }) {
+  const { handleAddCoffee, handleRemoveCoffee } = useCoffee()
 
   return (
-    <div ref={cardRef} className="text-center bg-card rounded-tr-3xl rounded-bl-3xl px-6 pb-5 relative min-h-[24rem]">
+    <div className="text-center bg-card rounded-tr-3xl rounded-bl-3xl px-6 pb-5 relative min-h-[24rem]">
       <Image src={image} alt="Cuban coffee" width={150} height={150} className="relative -top-6 mx-auto" />
 
       <ul className="flex items-center justify-center gap-2">
@@ -30,13 +29,13 @@ export function CoffeeCard({ title, image, price, labels, description, quantity,
         </p>
 
         <div className="flex items-center p-2 gap-1 bg-button rounded-md">
-          <button className="text-purple">
+          <button className="text-purple" onClick={() => handleRemoveCoffee(id)}>
             <Minus weight="bold" />
           </button>
           <span className="text-base font-roboto px-2 text-defaultText font-semibold">
             {quantity}
           </span>
-          <button className="text-purple" onClick={() => handleAddCoffee(cardRef.current, coffeeIndex)}>
+          <button className="text-purple" onClick={() => handleAddCoffee(id)}>
             <Plus weight="bold" />
           </button>
         </div>

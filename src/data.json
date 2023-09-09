@@ -7,7 +7,7 @@
       "title": "Expresso Tradicional",
       "description": "O tradicional café feito com água quente e grãos moídos",
       "price": 5.22,
-      "quantity": 4
+      "quantity": 0
     },
     {
       "id": 2,
@@ -115,7 +115,7 @@
       "title": "Árabe",
       "description": "Bebida preparada com grãos de café árabe e especiarias",
       "price": 5.2,
-      "quantity": 1
+      "quantity": 0
     },
     {
       "id": 14,
@@ -124,7 +124,7 @@
       "title": "Irlandês",
       "description": "Bebida à base de café, uísque irlandês, açúcar e chantilly",
       "price": 9.99,
-      "quantity": 3
+      "quantity": 0
     }
   ]
 }
