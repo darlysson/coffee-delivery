@@ -1,17 +1,27 @@
 import { LayoutSection } from "@/components/LayoutSection";
+import PaymentMethodButton from "@/components/PaymentMethodButton";
 import { useCoffee } from "@/hooks/useCoffee";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from '@phosphor-icons/react';
+import * as Form from '@radix-ui/react-form';
+import { ToggleGroup } from '@radix-ui/react-toggle-group';
 import clsx from "clsx";
 import Image from 'next/image';
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Checkout() {
+  const [paymentValue, setPaymentValue] = useState('credit')
   const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee } = useCoffee()
   const totalAmount = selectedCoffees.reduce((acc, coffee) => acc + coffee.price, 0)
   const hasCoffee = selectedCoffees.length > 0
 
   let deliveryAmount = 3.50
+
+  // OK - Bring Radix Form 
+  // OK - Make sure that the design is still OK
+  // OnSubmit: Store the data somewhere
+  // On Success page: Grab the content from the form.
 
   return (
     <LayoutSection>
@@ -29,35 +39,45 @@ export default function Checkout() {
               </div>
             </div>
 
-            <form className="grid grid-cols-2 gap-4">
-              <label htmlFor="postal-code" className="col-span-1">
-                <input className="roundrounded ed col-span-1 w-full p-3 bg-input border border-button text-label" type="number" id="postal-code" placeholder="Código Postal" maxLength={7} />
-              </label>
+            <Form.Root className="grid grid-cols-2 gap-4">
+              <Form.Field className="col-span-1" name="zip-code">
+                <Form.Message className="text-red-600 text-xs" match="valueMissing">
+                  Please enter your zip code
+                </Form.Message>
 
-              <label htmlFor="street" className="col-span-2">
-                <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label" type="text" id="street" placeholder="Street" />
-              </label>
+                <Form.Control asChild>
+                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" required placeholder="ZIP Code (Ex: 2435111)" maxLength={7} />
+                </Form.Control>
+              </Form.Field>
 
-              <label htmlFor="Number" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Number" placeholder="Number" />
-              </label>
+              <Form.Field className="col-span-2" name="address">
+                <Form.Message className="text-red-600 text-xs" match="valueMissing">
+                  Please enter your address
+                </Form.Message>
 
-              <label htmlFor="Complement" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Complement" placeholder="Complement" />
-              </label>
+                <Form.Control asChild>
+                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" required placeholder="Address (Ex: 7 South Circular Road)" maxLength={100} />
+                </Form.Control>
+              </Form.Field>
 
-              <label htmlFor="Neighborhood" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Neighborhood" placeholder="Neighborhood" />
-              </label>
+              <Form.Field className="col-span-2" name="complement">
+                <Form.Control asChild>
+                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="Adress Complement (Ex: Flat4, 3rd floor)" maxLength={100} />
+                </Form.Control>
+              </Form.Field>
 
-              <label htmlFor="City" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="City" placeholder="City" />
-              </label>
+              <Form.Field className="col-span-1" name="city">
+                <Form.Control asChild>
+                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="City (Ex: Oxford)" maxLength={100} />
+                </Form.Control>
+              </Form.Field>
 
-              {/* <label htmlFor="State" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="street" placeholder="Street" />
-              </label> */}
-            </form>
+              <Form.Field className="col-span-1" name="state">
+                <Form.Control asChild>
+                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="State (Ex: London)" maxLength={100} />
+                </Form.Control>
+              </Form.Field>
+            </Form.Root>
           </div>
 
           <div className="p-10 bg-card rounded-md mt-3">
@@ -71,22 +91,16 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <CreditCard className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Credit Card</p>
-                </button>
-
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <Bank className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Debit Card</p>
-                </button>
-
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <Money className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Credit Card</p>
-                </button>
-              </div>
+              <ToggleGroup
+                type="single"
+                value={paymentValue}
+                className="flex gap-3"
+                onValueChange={(value) => { if (value) setPaymentValue(value) }}
+              >
+                <PaymentMethodButton icon={CreditCard} label="Credit Card" value="credit" />
+                <PaymentMethodButton icon={Bank} label="Debit Card" value="debit" />
+                <PaymentMethodButton icon={Money} label="Money" value="money" />
+              </ToggleGroup>
             </div>
           </div>
         </div>

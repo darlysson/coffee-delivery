@@ -65,8 +65,6 @@ export default function App({ Component, pageProps }: AppProps) {
     setCoffees(filteredCoffees)
   }
 
-  // Add funcionality to NOT ALLOW coffee amount to be less than 0
-
   return (
     <CoffeesContext.Provider
       value={{

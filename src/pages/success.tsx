@@ -3,7 +3,7 @@ import { LayoutSection } from "@/components/LayoutSection";
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
 import Image from 'next/image';
 
-export default function success() {
+export default function Success() {
   return (
     <LayoutSection>
       <div className="flex gap-x-[102px]">

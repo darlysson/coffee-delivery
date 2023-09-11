@@ -4,7 +4,7 @@ import { formatPrice } from "@/utils/priceFormatter";
 import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
 
-export function CoffeeCard({ id, title, image, price, labels, description, quantity, coffeeIndex }: CoffeeProps & { coffeeIndex: number }) {
+export function CoffeeCard({ id, title, image, price, labels, description, quantity }: CoffeeProps) {
   const { handleAddCoffee, handleRemoveCoffee } = useCoffee()
 
   return (
@@ -29,7 +29,10 @@ export function CoffeeCard({ id, title, image, price, labels, description, quant
         </p>
 
         <div className="flex items-center p-2 gap-1 bg-button rounded-md">
-          <button className="text-purple" onClick={() => handleRemoveCoffee(id)}>
+          <button
+            className="text-purple disabled:opacity-60 disabled:text-gray-400 disabled:cursor-not-allowed"
+            onClick={() => handleRemoveCoffee(id)} disabled={quantity === 0}
+          >
             <Minus weight="bold" />
           </button>
           <span className="text-base font-roboto px-2 text-defaultText font-semibold">

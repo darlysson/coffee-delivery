@@ -1,14 +1,13 @@
-import { CoffeesContext } from '@/pages/_app';
+import { useCoffee } from '@/hooks/useCoffee';
 import { MapPin, ShoppingCartSimple } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from 'react';
 import { Icon } from './Icon';
 import { LayoutSection } from './LayoutSection';
 
 export function Header() {
-  const { sumOfAllCoffees } = useContext(CoffeesContext)
+  const { sumOfAllCoffees } = useCoffee()
 
   return (
     <LayoutSection>
