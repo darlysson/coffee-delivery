@@ -1,17 +1,37 @@
+import { Input } from "@/components/Input";
 import { LayoutSection } from "@/components/LayoutSection";
+import PaymentMethodButton from "@/components/PaymentMethodButton";
 import { useCoffee } from "@/hooks/useCoffee";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from '@phosphor-icons/react';
+import { ToggleGroup } from '@radix-ui/react-toggle-group';
 import clsx from "clsx";
 import Image from 'next/image';
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function Checkout() {
-  const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee } = useCoffee()
+  const [paymentValue, setPaymentValue] = useState('credit')
+  const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee, handleCustomerData } = useCoffee()
+  const { register, handleSubmit, formState: { errors } } = useForm<Input>()
+  const router = useRouter()
+
   const totalAmount = selectedCoffees.reduce((acc, coffee) => acc + coffee.price, 0)
   const hasCoffee = selectedCoffees.length > 0
-
   let deliveryAmount = 3.50
+
+  const onSubmit: SubmitHandler<Input> = (data) => {
+    const customerData = {
+      ...data,
+      paymentMethod: paymentValue
+    }
+
+    handleCustomerData(customerData)
+
+    router.push('/success')
+  }
 
   return (
     <LayoutSection>
@@ -29,34 +49,59 @@ export default function Checkout() {
               </div>
             </div>
 
-            <form className="grid grid-cols-2 gap-4">
-              <label htmlFor="postal-code" className="col-span-1">
-                <input className="roundrounded ed col-span-1 w-full p-3 bg-input border border-button text-label" type="number" id="postal-code" placeholder="Código Postal" maxLength={7} />
-              </label>
+            <form className="grid grid-cols-2 gap-4" id="submitCoffee" onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                required
+                name="name"
+                span={2}
+                placeholder="John"
+                register={register}
+                errors={errors}
+              />
 
-              <label htmlFor="street" className="col-span-2">
-                <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label" type="text" id="street" placeholder="Street" />
-              </label>
+              <Input
+                required
+                name="address"
+                span={2}
+                placeholder="7 St Mark's Street"
+                register={register}
+                errors={errors}
+              />
 
-              <label htmlFor="Number" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Number" placeholder="Number" />
-              </label>
+              <Input
+                required
+                name="city"
+                span={1}
+                placeholder="Wembley"
+                register={register}
+                errors={errors}
+              />
 
-              <label htmlFor="Complement" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Complement" placeholder="Complement" />
-              </label>
+              <Input
+                required
+                name="state"
+                span={1}
+                placeholder="Greater London"
+                register={register}
+                errors={errors}
+              />
 
-              <label htmlFor="Neighborhood" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="Neighborhood" placeholder="Neighborhood" />
-              </label>
+              <Input
+                required
+                name="phone"
+                span={1}
+                placeholder="933 114 980"
+                register={register}
+                errors={errors}
+              />
 
-              <label htmlFor="City" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="City" placeholder="City" />
-              </label>
-
-              {/* <label htmlFor="State" className="col-span-1">
-                <input className="rounded w-full p-3 bg-input border border-button text-label" type="text" id="street" placeholder="Street" />
-              </label> */}
+              <Input
+                name="email"
+                span={1}
+                placeholder="john@example.com"
+                register={register}
+                errors={errors}
+              />
             </form>
           </div>
 
@@ -71,22 +116,16 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <CreditCard className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Credit Card</p>
-                </button>
-
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <Bank className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Debit Card</p>
-                </button>
-
-                <button className="flex bg-button p-4 gap-3 rounded-md">
-                  <Money className="text-purple h-4 w-4" />
-                  <p className="uppercase text-defaultText text-xs">Credit Card</p>
-                </button>
-              </div>
+              <ToggleGroup
+                type="single"
+                value={paymentValue}
+                className="flex gap-3"
+                onValueChange={(value) => { if (value) setPaymentValue(value) }}
+              >
+                <PaymentMethodButton icon={CreditCard} label="Credit Card" value="credit" />
+                <PaymentMethodButton icon={Bank} label="Debit Card" value="debit" />
+                <PaymentMethodButton icon={Money} label="Money" value="money" />
+              </ToggleGroup>
             </div>
           </div>
         </div>
@@ -163,9 +202,14 @@ export default function Checkout() {
               </div>
             </div>
 
-            <Link href="/success" className={clsx("block text-center py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6", !hasCoffee && 'opacity-70 cursor-not-allowed')}>
+            <button
+              type="submit"
+              form="submitCoffee"
+              onClick={() => handleSubmit(onSubmit)}
+              className={clsx("block text-center py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6", !hasCoffee && 'opacity-70 cursor-not-allowed')}
+            >
               Submit Order
-            </Link>
+            </button>
           </div>
         </div>
       </div>

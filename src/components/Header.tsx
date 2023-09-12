@@ -1,14 +1,18 @@
-import { CoffeesContext } from '@/pages/_app';
+import { useCoffee } from '@/hooks/useCoffee';
 import { MapPin, ShoppingCartSimple } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from 'react';
+import { useRouter } from 'next/router';
 import { Icon } from './Icon';
 import { LayoutSection } from './LayoutSection';
 
 export function Header() {
-  const { sumOfAllCoffees } = useContext(CoffeesContext)
+  const { sumOfAllCoffees, customerData } = useCoffee()
+  const { asPath } = useRouter()
+
+  const isSuccessPage = asPath === '/success'
+  const customerLocation = `${customerData.city}, ${customerData.state}`
 
   return (
     <LayoutSection>
@@ -21,7 +25,7 @@ export function Header() {
           <div className="flex gap-1 rounded-md items-center bg-lightPurple text-darkPurple p-2">
             <MapPin className="text-purple" />
 
-            <span className="text-sm">Lisbon, PT</span>
+            <span className="text-sm">{`Delivering at ${isSuccessPage ? customerLocation : 'wherever you are 😀'}`}</span>
           </div>
 
           <Link href="/checkout" className={clsx('p-1 bg-lightYellow no-underline rounded-md relative', sumOfAllCoffees > 0 && 'border border-darkYellow animate-checkout')}>
