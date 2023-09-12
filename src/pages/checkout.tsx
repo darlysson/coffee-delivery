@@ -1,27 +1,37 @@
+import { Input } from "@/components/Input";
 import { LayoutSection } from "@/components/LayoutSection";
 import PaymentMethodButton from "@/components/PaymentMethodButton";
 import { useCoffee } from "@/hooks/useCoffee";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from '@phosphor-icons/react';
-import * as Form from '@radix-ui/react-form';
 import { ToggleGroup } from '@radix-ui/react-toggle-group';
 import clsx from "clsx";
 import Image from 'next/image';
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function Checkout() {
   const [paymentValue, setPaymentValue] = useState('credit')
-  const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee } = useCoffee()
+  const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee, handleCustomerData } = useCoffee()
+  const { register, handleSubmit, formState: { errors } } = useForm<Input>()
+  const router = useRouter()
+
   const totalAmount = selectedCoffees.reduce((acc, coffee) => acc + coffee.price, 0)
   const hasCoffee = selectedCoffees.length > 0
-
   let deliveryAmount = 3.50
 
-  // OK - Bring Radix Form 
-  // OK - Make sure that the design is still OK
-  // OnSubmit: Store the data somewhere
-  // On Success page: Grab the content from the form.
+  const onSubmit: SubmitHandler<Input> = (data) => {
+    const customerData = {
+      ...data,
+      paymentMethod: paymentValue
+    }
+
+    handleCustomerData(customerData)
+
+    router.push('/success')
+  }
 
   return (
     <LayoutSection>
@@ -39,45 +49,60 @@ export default function Checkout() {
               </div>
             </div>
 
-            <Form.Root className="grid grid-cols-2 gap-4">
-              <Form.Field className="col-span-1" name="zip-code">
-                <Form.Message className="text-red-600 text-xs" match="valueMissing">
-                  Please enter your zip code
-                </Form.Message>
+            <form className="grid grid-cols-2 gap-4" id="submitCoffee" onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                required
+                name="name"
+                span={2}
+                placeholder="John"
+                register={register}
+                errors={errors}
+              />
 
-                <Form.Control asChild>
-                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" required placeholder="ZIP Code (Ex: 2435111)" maxLength={7} />
-                </Form.Control>
-              </Form.Field>
+              <Input
+                required
+                name="address"
+                span={2}
+                placeholder="7 St Mark's Street"
+                register={register}
+                errors={errors}
+              />
 
-              <Form.Field className="col-span-2" name="address">
-                <Form.Message className="text-red-600 text-xs" match="valueMissing">
-                  Please enter your address
-                </Form.Message>
+              <Input
+                required
+                name="city"
+                span={1}
+                placeholder="Wembley"
+                register={register}
+                errors={errors}
+              />
 
-                <Form.Control asChild>
-                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" required placeholder="Address (Ex: 7 South Circular Road)" maxLength={100} />
-                </Form.Control>
-              </Form.Field>
+              <Input
+                required
+                name="state"
+                span={1}
+                placeholder="Greater London"
+                register={register}
+                errors={errors}
+              />
 
-              <Form.Field className="col-span-2" name="complement">
-                <Form.Control asChild>
-                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="Adress Complement (Ex: Flat4, 3rd floor)" maxLength={100} />
-                </Form.Control>
-              </Form.Field>
+              <Input
+                required
+                name="phone"
+                span={1}
+                placeholder="933 114 980"
+                register={register}
+                errors={errors}
+              />
 
-              <Form.Field className="col-span-1" name="city">
-                <Form.Control asChild>
-                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="City (Ex: Oxford)" maxLength={100} />
-                </Form.Control>
-              </Form.Field>
-
-              <Form.Field className="col-span-1" name="state">
-                <Form.Control asChild>
-                  <input className="rounded col-span-2 w-full p-3 bg-input border border-button text-label italic" type="text" placeholder="State (Ex: London)" maxLength={100} />
-                </Form.Control>
-              </Form.Field>
-            </Form.Root>
+              <Input
+                name="email"
+                span={1}
+                placeholder="john@example.com"
+                register={register}
+                errors={errors}
+              />
+            </form>
           </div>
 
           <div className="p-10 bg-card rounded-md mt-3">
@@ -177,9 +202,14 @@ export default function Checkout() {
               </div>
             </div>
 
-            <Link href="/success" className={clsx("block text-center py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6", !hasCoffee && 'opacity-70 cursor-not-allowed')}>
+            <button
+              type="submit"
+              form="submitCoffee"
+              onClick={() => handleSubmit(onSubmit)}
+              className={clsx("block text-center py-3 px-2 rounded-md bg-yellow text-white cursor-pointer w-full font-bold mt-6", !hasCoffee && 'opacity-70 cursor-not-allowed')}
+            >
               Submit Order
-            </Link>
+            </button>
           </div>
         </div>
       </div>
