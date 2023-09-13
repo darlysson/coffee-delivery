@@ -1,0 +1,40 @@
+{
+  "inputs": [
+    {
+      "name": "name",
+      "placeholder": "John",
+      "required": true,
+      "className": "col-span-2"
+    },
+    {
+      "name": "address",
+      "placeholder": "7 St Mark's Street",
+      "required": true,
+      "className": "col-span-2"
+    },
+    {
+      "name": "city",
+      "placeholder": "Wembley",
+      "required": true,
+      "className": "col-span-1"
+    },
+    {
+      "name": "state",
+      "placeholder": "Greater London",
+      "required": true,
+      "className": "col-span-1"
+    },
+    {
+      "name": "phone",
+      "placeholder": "933 114 980",
+      "required": true,
+      "className": "col-span-1"
+    },
+    {
+      "name": "email",
+      "placeholder": "john@example.com",
+      "required": false,
+      "className": "col-span-1"
+    }
+  ]
+}

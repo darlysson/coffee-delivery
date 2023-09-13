@@ -1,5 +1,5 @@
-import { Input } from "@/components/Input";
-import { LayoutSection } from "@/components/LayoutSection";
+import { Input, InputProps } from "@/components/Input/Input";
+import data from '@/components/Input/data.json';
 import PaymentMethodButton from "@/components/PaymentMethodButton";
 import { useCoffee } from "@/hooks/useCoffee";
 import { formatPrice } from "@/utils/priceFormatter";
@@ -34,12 +34,12 @@ export default function Checkout() {
   }
 
   return (
-    <LayoutSection>
-      <div className="grid gap-x-8 grid-cols-2">
+    <section className='container mx-auto px-4'>
+      <div className="grid gap-y-8 grid-cols-1 lg:gap-x-8 lg:gap-y-0 lg:grid-cols-2">
         <div>
           <h2 className="font-baloo text-subtitle text-lg mb-4">Complete your order</h2>
 
-          <div className="p-10 bg-card rounded-md">
+          <div className="p-6 lg:p-10 bg-card rounded-md">
             <div className="flex gap-2 mb-8">
               <MapPin className="text-darkYellow h-6 w-6" />
 
@@ -50,62 +50,21 @@ export default function Checkout() {
             </div>
 
             <form className="grid grid-cols-2 gap-4" id="submitCoffee" onSubmit={handleSubmit(onSubmit)}>
-              <Input
-                required
-                name="name"
-                span={2}
-                placeholder="John"
-                register={register}
-                errors={errors}
-              />
-
-              <Input
-                required
-                name="address"
-                span={2}
-                placeholder="7 St Mark's Street"
-                register={register}
-                errors={errors}
-              />
-
-              <Input
-                required
-                name="city"
-                span={1}
-                placeholder="Wembley"
-                register={register}
-                errors={errors}
-              />
-
-              <Input
-                required
-                name="state"
-                span={1}
-                placeholder="Greater London"
-                register={register}
-                errors={errors}
-              />
-
-              <Input
-                required
-                name="phone"
-                span={1}
-                placeholder="933 114 980"
-                register={register}
-                errors={errors}
-              />
-
-              <Input
-                name="email"
-                span={1}
-                placeholder="john@example.com"
-                register={register}
-                errors={errors}
-              />
+              {data.inputs.map(input => (
+                <Input
+                  key={input.name}
+                  required={input.required}
+                  name={input.name as InputProps['name']}
+                  className={input.className}
+                  placeholder={input.placeholder}
+                  register={register}
+                  errors={errors}
+                />
+              ))}
             </form>
           </div>
 
-          <div className="p-10 bg-card rounded-md mt-3">
+          <div className="p-6 lg:p-10 bg-card rounded-md mt-3">
             <div className="flex flex-col gap-8">
               <div className="flex gap-2">
                 <CurrencyDollar className="text-purple h-6 w-6" />
@@ -119,7 +78,7 @@ export default function Checkout() {
               <ToggleGroup
                 type="single"
                 value={paymentValue}
-                className="flex gap-3"
+                className="flex flex-col lg:flex-row gap-3"
                 onValueChange={(value) => { if (value) setPaymentValue(value) }}
               >
                 <PaymentMethodButton icon={CreditCard} label="Credit Card" value="credit" />
@@ -133,7 +92,7 @@ export default function Checkout() {
         <div>
           <h2 className="font-baloo text-lg mb-4 text-subtitle">Selected Coffees</h2>
 
-          <div className="p-10 bg-card rounded-tr-3xl rounded-bl-3xl">
+          <div className="p-6 lg:p-10 bg-card rounded-tr-3xl rounded-bl-3xl">
             {hasCoffee ? (
               <ul className="flex flex-col">
                 {selectedCoffees.map((coffee) => {
@@ -213,6 +172,6 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-    </LayoutSection>
+    </section>
   )
 }

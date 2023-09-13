@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header';
 import '@/styles/global.css';
 import type { AppProps } from 'next/app';
+import { Baloo_2, Roboto } from 'next/font/google';
 import { createContext, useEffect, useState } from 'react';
 import data from '../data.json';
 
@@ -37,6 +38,19 @@ type CoffeeContextType = {
 }
 
 export const CoffeesContext = createContext<CoffeeContextType>({} as CoffeeContextType)
+
+const baloo = Baloo_2({
+  weight: ['700', '800'],
+  subsets: ['latin'],
+  variable: '--font-baloo',
+})
+
+const roboto = Roboto({
+  weight: ['400', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+  variable: '--font-roboto',
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   const [coffees, setCoffees] = useState<CoffeeProps[]>([])
@@ -108,7 +122,10 @@ export default function App({ Component, pageProps }: AppProps) {
       }}
     >
       <Header />
-      <Component {...pageProps} />
+
+      <main className={`${roboto.variable} ${baloo.variable}`}>
+        <Component {...pageProps} />
+      </main>
     </CoffeesContext.Provider>
   )
 }
