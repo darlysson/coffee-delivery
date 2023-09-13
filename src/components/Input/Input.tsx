@@ -10,8 +10,7 @@ export type Input = {
   email: string
 }
 
-interface InputProps extends ComponentProps<'input'> {
-  span: 1 | 2
+export interface InputProps extends ComponentProps<'input'> {
   errorMessage?: string
   register: UseFormRegister<Input>
   errors: FieldErrors
@@ -22,14 +21,14 @@ export function Input({
   name,
   placeholder,
   required = false,
-  span,
+  className,
   errorMessage,
   errors,
   register
 }: InputProps) {
 
   return (
-    <div className={`col-span-${span}`}>
+    <div className={className}>
       {errors[name] && (
         <span className=" text-red-500 text-xs">{errorMessage || 'This field is required.'}</span>
       )}

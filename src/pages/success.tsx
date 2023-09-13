@@ -1,5 +1,4 @@
 import { Icon } from "@/components/Icon";
-import { LayoutSection } from "@/components/LayoutSection";
 import { useCoffee } from "@/hooks/useCoffee";
 import { CurrencyDollar, MapPin, SealWarning, Timer } from "@phosphor-icons/react";
 import Image from 'next/image';
@@ -14,8 +13,8 @@ export default function Success() {
   }, [])
 
   return (
-    <LayoutSection>
-      <div className="flex gap-x-[102px]">
+    <section className='container mx-auto px-4'>
+      <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-y-0 lg:gap-x-[102px]">
         <div>
           <h2 className="font-baloo text-darkYellow text-title-32 font-bold mb-1">
             {`Hey, ${name} . Your order is confirmed`}
@@ -78,6 +77,6 @@ export default function Success() {
 
         <Image src="/delivery-man.svg" width={492} height={293} alt="Delivery man" />
       </div>
-    </LayoutSection>
+    </section>
   )
 }

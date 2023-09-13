@@ -29,8 +29,8 @@ module.exports = {
         'title-32': '2rem',
       },
       fontFamily: {
-        baloo: ['Baloo\\ 2', 'sans-serif'],
-        roboto: ['Roboto', 'sans-serif'],
+        baloo: ['var(--font-baloo)', 'sans-serif'],
+        roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       borderRadius: {
         '5xl': '36px',
