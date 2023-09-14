@@ -2,18 +2,25 @@ import { Icon } from "@/components/Icon";
 import { useCoffee } from "@/hooks/useCoffee";
 import { CurrencyDollar, MapPin, SealWarning, Timer } from "@phosphor-icons/react";
 import Image from 'next/image';
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Success() {
-  const { customerData, handleResetCoffeeAmount } = useCoffee()
+  const router = useRouter()
+  const { customerData, handleResetCoffeeAmount, selectedCoffees } = useCoffee()
   const { address, city, email, name, paymentMethod, phone, state } = customerData
+  const isValidOperation = Boolean(selectedCoffees.length) && Boolean(Object.keys(customerData).length)
 
   useEffect(() => {
     handleResetCoffeeAmount()
-  }, [])
+
+    if (!isValidOperation) router.push("/")
+  }, [handleResetCoffeeAmount, isValidOperation, router])
+
+  // Set a bg div and a timer. This will be to inform the user that he needs to have seleted at least 1 coffee to have access to this page..
 
   return (
-    <section className='container mx-auto px-4'>
+    <section className='container mx-auto px-8' >
       <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-y-0 lg:gap-x-[102px]">
         <div>
           <h2 className="font-baloo text-darkYellow text-title-32 font-bold mb-1">
@@ -80,3 +87,24 @@ export default function Success() {
     </section>
   )
 }
+
+{/* <AlertDialog.Root>
+<AlertDialog.Trigger asChild>
+  <button className="Button violet">Delete account</button>
+</AlertDialog.Trigger>
+
+<AlertDialog.Portal>
+  <AlertDialog.Overlay className="AlertDialogOverlay" />
+  <AlertDialog.Content className="AlertDialogContent">
+    <AlertDialog.Title className="AlertDialogTitle">Are you absolutely sure?</AlertDialog.Title>
+    <AlertDialog.Description className="AlertDialogDescription">
+      This action cannot be undone. This will permanently delete your account and remove your
+      data from our servers.
+    </AlertDialog.Description>
+
+    <AlertDialog.Action asChild>
+      <button className="Button red">OK</button>
+    </AlertDialog.Action>
+  </AlertDialog.Content>
+</AlertDialog.Portal>
+</AlertDialog.Root> */}

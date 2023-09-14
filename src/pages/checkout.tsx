@@ -14,7 +14,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function Checkout() {
   const [paymentValue, setPaymentValue] = useState('credit')
-  const { selectedCoffees, handleRemoveCartCoffee, handleAddCoffee, handleRemoveCoffee, handleCustomerData } = useCoffee()
+  const { selectedCoffees, handleRemoveCartCoffee, handleAddOrRemoveCoffee, handleCustomerData } = useCoffee()
   const { register, handleSubmit, formState: { errors } } = useForm<Input>()
   const router = useRouter()
 
@@ -34,59 +34,67 @@ export default function Checkout() {
   }
 
   return (
-    <section className='container mx-auto px-4'>
+    <section className='container mx-auto px-8'>
       <div className="grid gap-y-8 grid-cols-1 lg:gap-x-8 lg:gap-y-0 lg:grid-cols-2">
         <div>
           <h2 className="font-baloo text-subtitle text-lg mb-4">Complete your order</h2>
+          {hasCoffee ? (
+            <>
+              <div className="p-6 lg:p-10 bg-card rounded-md">
+                <div className="flex gap-2 mb-8">
+                  <MapPin className="text-darkYellow h-6 w-6" />
 
-          <div className="p-6 lg:p-10 bg-card rounded-md">
-            <div className="flex gap-2 mb-8">
-              <MapPin className="text-darkYellow h-6 w-6" />
+                  <div className="flex-col">
+                    <h4 className="text-base text-subtitle">Delivery Address</h4>
+                    <p className="text-sm text-defaultText">Tell us the address where you want to receive your coffee.</p>
+                  </div>
+                </div>
 
-              <div className="flex-col">
-                <h4 className="text-base text-subtitle">Delivery Address</h4>
-                <p className="text-sm text-defaultText">Tell us the address where you want to receive your coffee.</p>
+                <form className="grid grid-cols-2 gap-4" id="submitCoffee" onSubmit={handleSubmit(onSubmit)}>
+                  {data.inputs.map(input => (
+                    <Input
+                      key={input.name}
+                      required={input.required}
+                      name={input.name as InputProps['name']}
+                      className={input.className}
+                      placeholder={input.placeholder}
+                      register={register}
+                      errors={errors}
+                    />
+                  ))}
+                </form>
               </div>
-            </div>
 
-            <form className="grid grid-cols-2 gap-4" id="submitCoffee" onSubmit={handleSubmit(onSubmit)}>
-              {data.inputs.map(input => (
-                <Input
-                  key={input.name}
-                  required={input.required}
-                  name={input.name as InputProps['name']}
-                  className={input.className}
-                  placeholder={input.placeholder}
-                  register={register}
-                  errors={errors}
-                />
-              ))}
-            </form>
-          </div>
+              <div className="p-6 lg:p-10 bg-card rounded-md mt-3">
+                <div className="flex flex-col gap-8">
+                  <div className="flex gap-2">
+                    <CurrencyDollar className="text-purple h-6 w-6" />
 
-          <div className="p-6 lg:p-10 bg-card rounded-md mt-3">
-            <div className="flex flex-col gap-8">
-              <div className="flex gap-2">
-                <CurrencyDollar className="text-purple h-6 w-6" />
+                    <div className="flex-col">
+                      <h4 className="text-base text-subtitle">Payment</h4>
+                      <p className="text-sm text-defaultText">Choose the payment method</p>
+                    </div>
+                  </div>
 
-                <div className="flex-col">
-                  <h4 className="text-base text-subtitle">Payment</h4>
-                  <p className="text-sm text-defaultText">Choose the payment method</p>
+                  <ToggleGroup
+                    type="single"
+                    value={paymentValue}
+                    className="flex flex-col lg:flex-row gap-3"
+                    onValueChange={(value) => { if (value) setPaymentValue(value) }}
+                  >
+                    <PaymentMethodButton icon={CreditCard} label="Credit Card" value="credit" />
+                    <PaymentMethodButton icon={Bank} label="Debit Card" value="debit" />
+                    <PaymentMethodButton icon={Money} label="Money" value="money" />
+                  </ToggleGroup>
                 </div>
               </div>
-
-              <ToggleGroup
-                type="single"
-                value={paymentValue}
-                className="flex flex-col lg:flex-row gap-3"
-                onValueChange={(value) => { if (value) setPaymentValue(value) }}
-              >
-                <PaymentMethodButton icon={CreditCard} label="Credit Card" value="credit" />
-                <PaymentMethodButton icon={Bank} label="Debit Card" value="debit" />
-                <PaymentMethodButton icon={Money} label="Money" value="money" />
-              </ToggleGroup>
+            </>
+          ) : (
+            <div className="text-center py-8 bg-card min-h-[352px] rounded-tr-3xl rounded-bl-3xl flex flex-col items-center justify-center">
+              <h2 className="font-baloo ">You have not seleted any coffee.</h2>
+              <Link href="/" className="font-xs text-sky-700 underline">Back to the store</Link>
             </div>
-          </div>
+          )}
         </div>
 
         <div>
@@ -110,13 +118,13 @@ export default function Checkout() {
 
                         <div className="flex gap-2">
                           <div className="text-purple flex items-center justify-center p-2 gap-1 bg-button rounded-md">
-                            <button onClick={() => handleRemoveCoffee(coffee.id)}>
+                            <button onClick={() => handleAddOrRemoveCoffee(coffee.id, 'remove')}>
                               <Minus weight="bold" />
                             </button>
                             <span className="text-base font-roboto px-2 text-defaultText font-semibold">
                               {coffee.quantity}
                             </span>
-                            <button onClick={() => handleAddCoffee(coffee.id)}>
+                            <button onClick={() => handleAddOrRemoveCoffee(coffee.id, 'add')}>
                               <Plus weight="bold" />
                             </button>
                           </div>
