@@ -14,7 +14,7 @@ export function Header() {
   const customerLocation = `${customerData.city}, ${customerData.state}`
 
   return (
-    <header className="container mx-auto px-4 flex justify-between items-center py-8 lg:py-16">
+    <header className="container mx-auto px-8 flex justify-between items-center py-8 lg:py-16">
       <Link href="/">
         <Image src='/logo.svg' alt="Coffee Delivery Logo" width={85} height={40} />
       </Link>

@@ -5,7 +5,7 @@ import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
 
 export function CoffeeCard({ id, title, image, price, labels, description, quantity }: CoffeeProps) {
-  const { handleAddCoffee, handleRemoveCoffee } = useCoffee()
+  const { handleAddOrRemoveCoffee } = useCoffee()
 
   return (
     <div className="text-center bg-card rounded-tr-3xl rounded-bl-3xl px-6 pb-5 relative min-h-[24rem]">
@@ -31,14 +31,14 @@ export function CoffeeCard({ id, title, image, price, labels, description, quant
         <div className="flex items-center p-2 gap-1 bg-button rounded-md">
           <button
             className="text-purple disabled:opacity-60 disabled:text-gray-400 disabled:cursor-not-allowed"
-            onClick={() => handleRemoveCoffee(id)} disabled={quantity === 0}
+            onClick={() => handleAddOrRemoveCoffee(id, 'remove')} disabled={quantity === 0}
           >
             <Minus weight="bold" />
           </button>
           <span className="text-base font-roboto px-2 text-defaultText font-semibold">
             {quantity}
           </span>
-          <button className="text-purple" onClick={() => handleAddCoffee(id)}>
+          <button className="text-purple" onClick={() => handleAddOrRemoveCoffee(id, 'add')}>
             <Plus weight="bold" />
           </button>
         </div>

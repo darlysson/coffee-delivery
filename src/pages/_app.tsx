@@ -1,9 +1,11 @@
 import { Header } from '@/components/Header';
+import { CoffeeProvider } from '@/hooks/useCoffee';
 import '@/styles/global.css';
 import type { AppProps } from 'next/app';
 import { Baloo_2, Roboto } from 'next/font/google';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import data from '../data.json';
+
 
 export interface CoffeeProps {
   id: number
@@ -25,20 +27,6 @@ type CustomerDataType = {
   paymentMethod: string
 }
 
-type CoffeeContextType = {
-  coffees: CoffeeProps[],
-  sumOfAllCoffees: number,
-  customerData: CustomerDataType,
-  selectedCoffees: CoffeeProps[],
-  handleRemoveCartCoffee: (id: number) => void
-  handleAddCoffee: (index: number) => void
-  handleRemoveCoffee: (index: number) => void
-  handleCustomerData: (data: CustomerDataType) => void
-  handleResetCoffeeAmount: () => void
-}
-
-export const CoffeesContext = createContext<CoffeeContextType>({} as CoffeeContextType)
-
 const baloo = Baloo_2({
   weight: ['700', '800'],
   subsets: ['latin'],
@@ -53,13 +41,14 @@ const roboto = Roboto({
 })
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [coffees, setCoffees] = useState<CoffeeProps[]>([])
+  const [coffees, setCoffees] = useState<CoffeeProps[]>(data.coffees)
   const [sumOfAllCoffees, setSumOfAllCoffees] = useState(0)
   const [selectedCoffees, setSelectedCoffees] = useState<CoffeeProps[]>([])
   const [customerData, setCustomerData] = useState<CustomerDataType>({} as CustomerDataType)
 
   useEffect(() => {
-    setCoffees(data.coffees)
+    // const localStorageCoffees = JSON.parse(global.localStorage.getItem('coffees') || "")
+    // console.log({ localStorageCoffees })
   }, [])
 
   useEffect(() => {
@@ -70,22 +59,36 @@ export default function App({ Component, pageProps }: AppProps) {
     setSelectedCoffees(selectedCoffees)
   }, [coffees])
 
-  function handleAddCoffee(id: number) {
+  useEffect(() => {
+    localStorage.setItem('coffees', JSON.stringify({ coffees, sumOfAllCoffees, selectedCoffees }))
+  }, [coffees, selectedCoffees, sumOfAllCoffees])
+
+  // useEffect(() => {
+  //   const localStorageCoffees = JSON.parse(localStorage.getItem('coffees') || "")
+
+  //   setSumOfAllCoffees(localStorageCoffees.sumOfAllCoffees)
+  //   setSelectedCoffees(localStorageCoffees.selectedCoffees)
+  //   setCoffees(localStorageCoffees.coffees)
+  // }, [])
+
+
+  // useEffect(() => {
+  //   const test = JSON.parse(localStorage.getItem('coffees') || "")
+  //   setSumOfAllCoffees(test.coffeeAmount)
+  //   console.log({ test })
+  // }, [])
+
+
+  // PReciso guardar:
+  // 1. qtd de café selecionados que aparece no header (sumOfAllCoffees)
+  // 2. estado do array de cafés selecionados.
+
+  function handleAddOrRemoveCoffee(id: number, operationType: 'add' | 'remove') {
     const newState = coffees.map((coffee) => {
+      const quantity = operationType === 'add' ? coffee.quantity + 1 : coffee.quantity - 1
+
       if (coffee.id === id) {
-        return { ...coffee, quantity: coffee.quantity + 1 }
-      }
-
-      return coffee
-    })
-
-    setCoffees(newState)
-  }
-
-  function handleRemoveCoffee(id: number) {
-    const newState = coffees.map((coffee) => {
-      if (coffee.id === id) {
-        return { ...coffee, quantity: coffee.quantity - 1 }
+        return { ...coffee, quantity }
       }
 
       return coffee
@@ -108,24 +111,21 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <CoffeesContext.Provider
-      value={{
-        coffees,
-        customerData,
-        sumOfAllCoffees,
-        selectedCoffees,
-        handleRemoveCartCoffee,
-        handleAddCoffee,
-        handleRemoveCoffee,
-        handleCustomerData,
-        handleResetCoffeeAmount
-      }}
-    >
+    <CoffeeProvider value={{
+      coffees,
+      customerData,
+      sumOfAllCoffees,
+      selectedCoffees,
+      handleRemoveCartCoffee,
+      handleAddOrRemoveCoffee,
+      handleCustomerData,
+      handleResetCoffeeAmount
+    }}>
       <Header />
 
       <main className={`${roboto.variable} ${baloo.variable}`}>
         <Component {...pageProps} />
       </main>
-    </CoffeesContext.Provider>
+    </CoffeeProvider>
   )
 }
