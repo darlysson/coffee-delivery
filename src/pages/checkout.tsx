@@ -1,6 +1,6 @@
-import { Input, InputProps } from "@/components/Input/Input";
-import data from '@/components/Input/data.json';
+import { Input, InputProps } from "@/components/Input";
 import PaymentMethodButton from "@/components/PaymentMethodButton";
+import data from '@/data/inputs.json';
 import { useCoffee } from "@/hooks/useCoffee";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from '@phosphor-icons/react';
@@ -111,7 +111,7 @@ export default function Checkout() {
                       <div className="flex flex-col gap-2 w-full">
                         <div className="flex items-center justify-between">
                           <h5 className="text-subtitle">{coffee.title}</h5>
-                          <h4 className="text-defaultText font-bold">
+                          <h4 className="text-defaultText font-bold hidden lg:block">
                             {formatPrice(coffee.price)}
                           </h4>
                         </div>
