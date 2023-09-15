@@ -1,10 +1,10 @@
+import { CoffeeProps } from "@/@types";
 import { useCoffee } from "@/hooks/useCoffee";
-import { CoffeeProps } from "@/pages/_app";
 import { formatPrice } from "@/utils/priceFormatter";
 import { Minus, Plus } from "@phosphor-icons/react";
 import Image from 'next/image';
 
-export function CoffeeCard({ id, title, image, price, labels, description, quantity }: CoffeeProps) {
+export function Coffee({ id, title, image, price, labels, description, quantity }: CoffeeProps) {
   const { handleAddOrRemoveCoffee } = useCoffee()
 
   return (
@@ -25,7 +25,7 @@ export function CoffeeCard({ id, title, image, price, labels, description, quant
 
       <div className="flex items-center mt-8 absolute bottom-6 left-0 right-0 px-6">
         <p className="text-defaultText mr-auto">
-          <span className="font-baloo text-2xl te">{formatPrice(price)}</span>
+          <span className="font-baloo text-2xl">{formatPrice(price)}</span>
         </p>
 
         <div className="flex items-center p-2 gap-1 bg-button rounded-md">

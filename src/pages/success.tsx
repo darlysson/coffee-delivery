@@ -8,6 +8,7 @@ import { useEffect } from "react";
 export default function Success() {
   const router = useRouter()
   const { customerData, handleResetCoffeeAmount, selectedCoffees } = useCoffee()
+
   const { address, city, email, name, paymentMethod, phone, state } = customerData
   const isValidOperation = Boolean(selectedCoffees.length) && Boolean(Object.keys(customerData).length)
 
@@ -16,8 +17,6 @@ export default function Success() {
 
     if (!isValidOperation) router.push("/")
   }, [handleResetCoffeeAmount, isValidOperation, router])
-
-  // Set a bg div and a timer. This will be to inform the user that he needs to have seleted at least 1 coffee to have access to this page..
 
   return (
     <section className='container mx-auto px-8' >
@@ -37,7 +36,7 @@ export default function Success() {
               />
               <div className="flex-col text-base text-defaultText">
                 <p>Deliver at <strong className="capitalize">{address}</strong></p>
-                <p className="capitaliz text-sm">{`${city}, ${state}`}</p>
+                <p className="capitalize text-sm">{`${city}, ${state}`}</p>
               </div>
             </div>
 
@@ -87,24 +86,3 @@ export default function Success() {
     </section>
   )
 }
-
-{/* <AlertDialog.Root>
-<AlertDialog.Trigger asChild>
-  <button className="Button violet">Delete account</button>
-</AlertDialog.Trigger>
-
-<AlertDialog.Portal>
-  <AlertDialog.Overlay className="AlertDialogOverlay" />
-  <AlertDialog.Content className="AlertDialogContent">
-    <AlertDialog.Title className="AlertDialogTitle">Are you absolutely sure?</AlertDialog.Title>
-    <AlertDialog.Description className="AlertDialogDescription">
-      This action cannot be undone. This will permanently delete your account and remove your
-      data from our servers.
-    </AlertDialog.Description>
-
-    <AlertDialog.Action asChild>
-      <button className="Button red">OK</button>
-    </AlertDialog.Action>
-  </AlertDialog.Content>
-</AlertDialog.Portal>
-</AlertDialog.Root> */}

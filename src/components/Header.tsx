@@ -23,7 +23,7 @@ export function Header() {
         <div className=" hidden lg:flex gap-1 rounded-md items-center bg-lightPurple text-darkPurple p-2">
           <MapPin className="text-purple" />
 
-          <span className="text-sm">{`Delivering at ${isSuccessPage ? customerLocation : 'wherever you are 😀'}`}</span>
+          <span className="text-sm">{`${isSuccessPage ? customerLocation : 'Great coffee wherever you are 😀'}`}</span>
         </div>
 
         <Link href="/checkout" className={clsx('p-1 bg-lightYellow no-underline rounded-md relative', sumOfAllCoffees > 0 && 'border border-darkYellow animate-checkout')}>

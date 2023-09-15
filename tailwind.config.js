@@ -23,6 +23,7 @@ module.exports = {
         defaultText: '#574F4D',
         label: '#8D8686',
         hover: '#D7d5D5',
+        modal: 'rgba(0, 0, 0, 0.6)',
       },
       fontSize: {
         xxs: '10px',
